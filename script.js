@@ -1,34 +1,40 @@
 const quizData = [
   {
-    question:'Which language runs in a web browser?',
-    a: 'C',
-    b: 'C++',
-    c: 'python',
-    d: 'Javascript',
-    correct: 'd',
+      question: "JavaScript language is one of the which types",
+      a: "Object based",
+      b: "Object Oriented",
+      c: "High Level",
+      d: "Assembly",
+      correct: "b",
   },
-
   {
-    question: 'What does CSS stand for?',
-    a: 'Central Style Sheets',
-    b: 'Cascading Style Sheets',
-    c: 'Cascading Simple Sheets',
-    d: 'Cars SUV Sailboat',
-    correct: 'b',
+      question: "In JavaScript, what is a block of statement?",
+      a: "Conditional Block",
+      b: "both conditional block and single statment",
+      c: "block that contains a single statement",
+      d: "block that combines a number of statements into a single compound statement",
+      correct: "d",
   },
-
   {
-    question: 'What does HTML stand for?',
-    a: 'Hypertext Markdown Language',
-    b: 'Hypertext Markup Language',
-    c: 'Hypertext Machine Language',
-    d: 'Hypertext Macho Language',
-    correct: 'b',
+      question: "What does HTML stand for?",
+      a: "Hypertext Markup Language",
+      b: "Hypertext Markdown Language",
+      c: "Hyperloop Machine Language",
+      d: "Helicopters Terminals Motorboats Lamborginis",
+      correct: "a",
+  },
+  {
+      question: "In Javascript,Which of the following variables takes precedence over the others if the names are the same?",
+      a: "Global variable",
+      b: "The local element",
+      c: "The two of the above",
+      d: "none of the above",
+      correct: "b",
   },
 ];
 
 const quiz = document.getElementById('quiz')
-const answerEl = document.querySelectorAll('answer')
+const answerEls = document.querySelectorAll('.answer')
 const questionEl = document.getElementById('question')
 const a_text = document.getElementById('a_text')
 const b_text = document.getElementById('b_text')
@@ -43,7 +49,8 @@ loadQuiz()
 
 function loadQuiz() {
   deselectAnswers()
-  let currentQuizData = quizData[currentQuiz]
+
+  const currentQuizData = quizData[currentQuiz]
 
   questionEl.innerText = currentQuizData.question
   a_text.innerText = currentQuizData.a
@@ -52,36 +59,39 @@ function loadQuiz() {
   d_text.innerText = currentQuizData.d
 }
 
-function deselectAnswers(){
-    answerEl.forEach(answerEl => answerEl.checked=false)
+function deselectAnswers() {
+  answerEls.forEach(answerEl => answerEl.checked = false)
 }
 
-function getSelected(){
-    let answer
-    answerEl.forEach(answerEl=>{
-        if(answerEl.checked)
-        answer = answerEl.id;
-    })
+function getSelected() {
+  let answer
 
-    return answer
+  answerEls.forEach(answerEl => {
+      if(answerEl.checked) {
+          answer = answerEl.id
+      }
+  })
+
+  return answer
 }
 
-submitBtn.addEventListener('click', ()=>{
-    let answer = getSelected()
-    if(answer === quizData[currentQuiz].correct){
-        score++
-    }
+submitBtn.addEventListener('click', () => {
+  const answer = getSelected()
+  
+  if(answer) {
+      if(answer === quizData[currentQuiz].correct) {
+          score++
+      }
 
-    currentQuiz++
+      currentQuiz++
 
-   if(currentQuiz< quizData.length){
-     loadQuiz()
-   }else
-   {
-       quiz.innerHTML = `
-       <h2>You answered ${score} 
-       /${quizData.length} questions </h2>
-       <button onlclick="location.reload()">Reload</button>
-       `
-   }
+      if(currentQuiz < quizData.length) {
+          loadQuiz()
+      } else {
+          quiz.innerHTML = `
+              <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+              <button onclick="location.reload()">Reload</button>
+          `
+      }
+  }
 })
