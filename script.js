@@ -91,6 +91,12 @@ submitBtn.addEventListener('click', () => {
           quiz.innerHTML = `
               <h2>You answered ${score}/${quizData.length} questions correctly</h2>
               <button onclick="location.reload()">Reload</button>
+              <center><script src="https://cdn.lordicon.com/lusqsztk.js"></script>
+              <lord-icon
+                  src="https://cdn.lordicon.com/lupuorrc.json"
+                  trigger="loop"
+                  style="width:100px;height:100px">
+              </lord-icon></center>
           `
       }
   }
