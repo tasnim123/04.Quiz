@@ -1,103 +1,64 @@
-const quizData = [
-  {
-      question: "JavaScript language is one of the which types",
-      a: "Object based",
-      b: "Object Oriented",
-      c: "High Level",
-      d: "Assembly",
-      correct: "b",
-  },
-  {
-      question: "In JavaScript, what is a block of statement?",
-      a: "Conditional Block",
-      b: "both conditional block and single statment",
-      c: "block that contains a single statement",
-      d: "block that combines a number of statements into a single compound statement",
-      correct: "d",
-  },
-  {
-      question: "What does HTML stand for?",
-      a: "Hypertext Markup Language",
-      b: "Hypertext Markdown Language",
-      c: "Hyperloop Machine Language",
-      d: "Helicopters Terminals Motorboats Lamborginis",
-      correct: "a",
-  },
-  {
-      question: "In Javascript,Which of the following variables takes precedence over the others if the names are the same?",
-      a: "Global variable",
-      b: "The local element",
-      c: "The two of the above",
-      d: "none of the above",
-      correct: "b",
-  },
-];
+import quizData from './quizData.js';
 
-const quiz = document.getElementById('quiz')
-const answerEls = document.querySelectorAll('.answer')
-const questionEl = document.getElementById('question')
-const a_text = document.getElementById('a_text')
-const b_text = document.getElementById('b_text')
-const c_text = document.getElementById('c_text')
-const d_text = document.getElementById('d_text')
-const submitBtn = document.getElementById('submit')
+const quiz = document.getElementById('quiz');
+const answerEls = document.querySelectorAll('.answer');
+const questionEl = document.getElementById('question');
+const a_text = document.getElementById('a_text');
+const b_text = document.getElementById('b_text');
+const c_text = document.getElementById('c_text');
+const d_text = document.getElementById('d_text');
+const submitBtn = document.getElementById('submit');
 
-let currentQuiz = 0
-let score = 0
+let currentQuiz = 0;
+let score = 0;
 
-loadQuiz()
+loadQuiz();
 
-function loadQuiz() {
-  deselectAnswers()
+async function loadQuiz() {
+  deselectAnswers();
 
-  const currentQuizData = quizData[currentQuiz]
+  const currentQuizData = quizData[currentQuiz];
 
-  questionEl.innerText = currentQuizData.question
-  a_text.innerText = currentQuizData.a
-  b_text.innerText = currentQuizData.b
-  c_text.innerText = currentQuizData.c
-  d_text.innerText = currentQuizData.d
+  questionEl.innerText = currentQuizData.question;
+  a_text.innerText = currentQuizData.a;
+  b_text.innerText = currentQuizData.b;
+  c_text.innerText = currentQuizData.c;
+  d_text.innerText = currentQuizData.d;
 }
 
 function deselectAnswers() {
-  answerEls.forEach(answerEl => answerEl.checked = false)
+  answerEls.forEach((answerEl) => (answerEl.checked = false));
 }
 
 function getSelected() {
-  let answer
-
-  answerEls.forEach(answerEl => {
-      if(answerEl.checked) {
-          answer = answerEl.id
-      }
-  })
-
-  return answer
+  return Array.from(answerEls).find((el) => el.checked);
 }
 
 submitBtn.addEventListener('click', () => {
-  const answer = getSelected()
-  
-  if(answer) {
-      if(answer === quizData[currentQuiz].correct) {
-          score++
-      }
+  const answer = getSelected();
 
-      currentQuiz++
-
-      if(currentQuiz < quizData.length) {
-          loadQuiz()
-      } else {
-          quiz.innerHTML = `
-              <h2>You answered ${score}/${quizData.length} questions correctly</h2>
-              <button onclick="location.reload()">Reload</button>
-              <center><script src="https://cdn.lordicon.com/lusqsztk.js"></script>
-              <lord-icon
-                  src="https://cdn.lordicon.com/lupuorrc.json"
-                  trigger="loop"
-                  style="width:100px;height:100px">
-              </lord-icon></center>
-          `
-      }
+  if (!answer) {
+    throw new Error('No answer selected');
   }
-})
+
+  if (answer === quizData[currentQuiz].correct) {
+    score++;
+  }
+
+  currentQuiz++;
+
+  if (currentQuiz < quizData.length) {
+    loadQuiz();
+  } else {
+    quiz.innerHTML = `
+        <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+        <button onclick="location.reload()">Reload</button>
+        <center><script src="https://cdn.lordicon.com/lusqsztk.js"></script>
+        <lord-icon
+            src="https://cdn.lordicon.com/lupuorrc.json"
+            trigger="loop"
+            style="width:100px;height:100px">
+        </lord-icon></center>
+    `;
+  }
+});
